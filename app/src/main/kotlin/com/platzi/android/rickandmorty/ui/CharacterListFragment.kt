@@ -16,6 +16,7 @@ import com.platzi.android.rickandmorty.api.*
 import com.platzi.android.rickandmorty.api.APIConstants.BASE_API_URL
 import com.platzi.android.rickandmorty.databinding.FragmentCharacterListBinding
 import com.platzi.android.rickandmorty.presentation.CharacterListViewModel
+import com.platzi.android.rickandmorty.usecases.GetAllCharacterUseCase
 import com.platzi.android.rickandmorty.utils.setItemDecorationSpacing
 import com.platzi.android.rickandmorty.utils.showLongToast
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -32,8 +33,12 @@ class CharacterListFragment : Fragment() {
     private lateinit var listener: OnCharacterListFragmentListener
     private lateinit var characterRequest: CharacterRequest
 
+    private val getAllCharacterUseCase : GetAllCharacterUseCase by lazy {
+        GetAllCharacterUseCase(characterRequest)
+    }
+
     private val characterListViewModel: CharacterListViewModel by lazy {
-        CharacterListViewModel(characterRequest)
+        CharacterListViewModel(getAllCharacterUseCase)
     }
 
     private val onScrollListener: RecyclerView.OnScrollListener by lazy {
